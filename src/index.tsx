@@ -1,4 +1,5 @@
 import type React from "react";
+import type { JSX } from "react";
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
 
@@ -468,15 +469,67 @@ function Community() {
 // ------------------------------------
 // Signup
 // ------------------------------------
+// Extend ImportMeta type for VITE env support
+interface ImportMeta {
+  env: {
+    VITE_FORMSPREE_ENDPOINT?: string;
+    [key: string]: any;
+  };
+}
+
+console.log("FORMSPREE", (import.meta as any).env?.VITE_FORMSPREE_ENDPOINT);
 function Signup() {
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<string>("");
+  const [status, setStatus] = useState<{ type: string; msg?: string } | null>(null);
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    setStatus(`Signed up: ${email}`);
+  const handleSubmit = async (ev: FormEvent) => {
+  ev.preventDefault();
+
+  const endpoint = (import.meta as any).env?.VITE_FORMSPREE_ENDPOINT || "";
+  console.log("[signup] endpoint:", endpoint);
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    setStatus({ type: "error", msg: "Please enter a valid email." });
+    return;
+  }
+
+  setStatus({ type: "loading" });
+
+  try {
+    if (endpoint) {
+      const fd = new FormData();
+      fd.append("email", email);        // required field name for reply-to
+      fd.append("_replyto", email);     // optional, also sets reply-to
+      fd.append("_subject", "DystopiaOS Waitlist"); // older APIs prefer _subject
+      fd.append("source", "dystopiaos");
+      fd.append("ts", String(Date.now()));
+
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: fd,
+      });
+
+      const text = await res.text();
+      console.log("[signup] status:", res.status, "body:", text);
+
+      if (!res.ok) throw new Error(`Remote store failed (${res.status})`);
+      setStatus({ type: "ok", msg: "You're on the list. Welcome to Dystopia." });
+    } else {
+      // local demo fallback
+      const raw = localStorage.getItem("dystopiaos_waitlist");
+      const arr = raw ? JSON.parse(raw) : [];
+      if (!arr.includes(email)) arr.push(email);
+      localStorage.setItem("dystopiaos_waitlist", JSON.stringify(arr));
+      setStatus({ type: "ok", msg: "Signed up locally (demo)." });
+    }
+
     setEmail("");
-  };
+  } catch (e: any) {
+    console.error("[signup] error:", e);
+    setStatus({ type: "error", msg: e?.message || "Something went wrong." });
+  }
+};
 
   return (
     <section id="signup" className="relative">
@@ -493,7 +546,16 @@ function Signup() {
             />
             <button type="submit" className="rounded-2xl px-5 py-3 bg-fuchsia-600 hover:bg-fuchsia-500 font-semibold">Get Early Access</button>
           </form>
-          {status && <div className="mt-4 text-sm text-emerald-400">{status}</div>}
+          {status && (
+            <div className={cx(
+              "mt-4 text-sm",
+              status.type === "error" ? "text-red-400" :
+              status.type === "loading" ? "text-zinc-400" :
+              "text-emerald-400"
+            )}>
+              {status.msg || ""}
+            </div>
+          )}
         </div>
       </div>
     </section>
