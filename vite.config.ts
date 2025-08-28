@@ -3,6 +3,6 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  // "/" for dev; GitHub Pages will pass VITE_BASE="/<repo>/" in the workflow
-  base: process.env.VITE_BASE || '/',
+  // Project Pages live at /Website-T1/ so assets must be prefixed the same
+  base: '/Website-T1/',
 })
