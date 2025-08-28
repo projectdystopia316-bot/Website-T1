@@ -445,9 +445,9 @@ function BlogPreview({ posts }: { posts: Post[] }) {
 // ------------------------------------
 function Community() {
   const links = [
-    { label: "X / Twitter", href: "https://x.com/", hint: "@yourhandle" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/", hint: "Company Page" },
-    { label: "GitHub", href: "https://github.com/", hint: "Code & Issues" },
+    { label: "X / Twitter", href: "https://x.com/DystopiaOS", hint: "@DystopiaOS" },
+    { label: "Substack", href: "https://substack.com/@dystopiaio/posts", hint: "Substack Page" },
+    { label: "GitHub", href: "https://github.com/projectdystopia316-bot", hint: "Releases" },
   ];
   return (
     <section id="swarm" className="relative">
