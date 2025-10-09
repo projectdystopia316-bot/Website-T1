@@ -1,10 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
-import DystopiaOS from './index'
+import App from './App.tsx'
+import './styles/globals.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <DystopiaOS />
-  </React.StrictMode>
+    <App />
+  </React.StrictMode>,
 )
+

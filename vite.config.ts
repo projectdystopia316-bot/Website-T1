@@ -1,8 +1,13 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // Project Pages live at /Website-T1/ so assets must be prefixed the same
-  base: '/Website-T1/',
+  base: process.env.NODE_ENV === 'production' ? '/dystopia-landing/' : '/',
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+  },
 })
+
