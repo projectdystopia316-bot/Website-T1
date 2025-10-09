@@ -3,36 +3,29 @@ name: Deploy TypeScript + Vite Project to GitHub Pages
 on:
   push:
     branches:
-      - main  # Change this if your default branch is 'master'
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    # 1️⃣ Checkout the repository
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    # 2️⃣ Set up Node.js
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'  # Use your Node version
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
 
-    # 3️⃣ Install dependencies
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    # 4️⃣ Build/compile project (ignore TS errors)
-    - name: Build project
-      run: |
-        npx tsc --noEmit || true  # Run TypeScript compiler but ignore errors
-        npm run build              # Vite build for production
+      - name: Build project
+        run: npm run build   # Only runs Vite build, skips tsc
 
-    # 5️⃣ Deploy to GitHub Pages
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist  # Vite outputs build files to 'dist' by default
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
