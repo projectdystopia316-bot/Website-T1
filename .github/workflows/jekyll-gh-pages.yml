@@ -14,26 +14,26 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # 2️⃣ Setup Node.js (needed for TypeScript and frontend frameworks)
+    # 2️⃣ Setup Node.js
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '20'  # Change to your Node.js version
+        node-version: '20'  # Your Node version
 
     # 3️⃣ Install dependencies
     - name: Install dependencies
       run: npm install
 
-    # 4️⃣ Compile TypeScript to JavaScript
+    # 4️⃣ Build/compile project
     - name: Build project
       run: |
         npm run build  # For React/Vue projects
         # or
-        # npx tsc    # For plain TypeScript projects without a bundler
+        # npx tsc    # For plain TypeScript projects
 
     # 5️⃣ Deploy to GitHub Pages
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v6
+      uses: peaceiris/actions-gh-pages@v3  # <--- use v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./build  # React/Vue build folder
