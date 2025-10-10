@@ -7,7 +7,6 @@
  * />
  */
 
-import React from 'react'
 
 export interface HeadlineBarProps {
   title: string                                // main title text
@@ -96,7 +95,7 @@ export default function HeadlineBar({
       </div>
 
       {/* Sheen animation styles - only if motion is allowed */}
-      <style jsx>{`
+      <style>{`
         @media (prefers-reduced-motion: no-preference) {
           .sheen-animation {
             position: relative;

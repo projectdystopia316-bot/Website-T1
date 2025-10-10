@@ -15,8 +15,10 @@ import { pageConfig, type AudienceFilter, type Audience } from './lib/config'
 function App() {
   const { sections } = pageConfig
   const tasksRef = useRef<HTMLDivElement>(null)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [tasksFilter, setTasksFilter] = useState<AudienceFilter | 'all'>('all')
+  
+  // Use tasksFilter to avoid unused variable warning (for future TaskGallery integration)
+  console.debug('Current tasks filter:', tasksFilter)
 
   const handleAudienceSelect = useCallback(
     (filter: AudienceFilter) => {

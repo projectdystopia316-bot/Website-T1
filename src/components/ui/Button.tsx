@@ -40,7 +40,7 @@ export function Button({
         sizeClasses[size],
         className
       )}
-      {...props}
+      {...(props as any)}
     >
       {children}
     </motion.button>

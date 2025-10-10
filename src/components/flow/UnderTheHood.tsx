@@ -1,4 +1,4 @@
-import { motion, useAnimation } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ArrowRight, ArrowDown, Shield, Cpu, Cloud, Zap, Eye, Lock, Smartphone } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
