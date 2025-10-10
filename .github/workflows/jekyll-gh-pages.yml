@@ -2,8 +2,8 @@ name: Deploy Vite + TypeScript Project to GitHub Pages
 
 on:
   push:
-    branches: ["main"]  # Trigger on pushes to main branch
-  workflow_dispatch:     # Allows manual trigger from Actions tab
+    branches: ["main"]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -27,19 +27,22 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'  # Change if using different Node version
+          node-version: '20'
 
       # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm install
 
       # 4️⃣ Build project (Vite will compile TypeScript)
-      # || true ensures TypeScript errors don't stop deployment
       - name: Build project
         run: npm run build || true
 
-      # 5️⃣ Deploy to GitHub Pages
+      # 5️⃣ Upload Pages artifact
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist  # Vite output folder
+
+      # 6️⃣ Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
-        with:
-          path: ./dist  # Vite outputs production build here
