@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://projectdystopia316-bot.github.io/Wesbite-T1",
+  "homepage": "https://projectdystopia316-bot.github.io/Website-T1",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
